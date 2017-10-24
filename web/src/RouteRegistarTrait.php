@@ -195,8 +195,8 @@ trait RouteRegistarTrait
         if (is_string($action)) {
             if (($pos = strpos($action, $this->actionDelimiter)) !== false) {
                 $callback = [
-                    $controller = $this->addNamespace(substr($action, 0, $pos), $namespace),
-                    $method = substr($action, $pos + strlen($this->actionDelimiter)) ?: null,
+                    $this->addNamespace(substr($action, 0, $pos), $namespace),
+                    substr($action, $pos + strlen($this->actionDelimiter)) ?: null,
                 ];
             } else {
                 $callback = $action;

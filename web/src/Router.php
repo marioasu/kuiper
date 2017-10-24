@@ -68,9 +68,9 @@ class Router implements RouterInterface
                 $this->matchers[] = $matcher;
             }
         }
-        $this->router = new FastRouteRouter(\FastRoute\simpleDispatcher(function ($r) use ($routes) {
+        $this->router = new FastRouteRouter(\FastRoute\simpleDispatcher(function ($set) use ($routes) {
             foreach ($routes as $route) {
-                $r->addRoute($route->getMethods(), $route->getPattern(), $route);
+                $set->addRoute($route->getMethods(), $route->getPattern(), $route);
             }
         }));
     }

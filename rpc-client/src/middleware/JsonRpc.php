@@ -3,6 +3,7 @@
 namespace kuiper\rpc\client\middleware;
 
 use kuiper\rpc\client\exception\RpcException;
+use kuiper\rpc\client\Request;
 use kuiper\rpc\MiddlewareInterface;
 use kuiper\rpc\RequestInterface;
 use kuiper\rpc\ResponseInterface;
@@ -29,6 +30,7 @@ class JsonRpc implements MiddlewareInterface
      */
     public function __invoke(RequestInterface $request, ResponseInterface $response, callable $next)
     {
+        /** @var Request $request */
         $serviceName = $request->getClass().'.'.$request->getMethod();
 
         if (isset($this->map[$serviceName])) {
@@ -39,6 +41,7 @@ class JsonRpc implements MiddlewareInterface
             'id' => $this->id++,
             'params' => $request->getParameters(),
         ]));
+        /** @var ResponseInterface $response */
         $response = $next($request, $response);
         $result = json_decode((string) $response->getBody(), true);
         if (isset($result['error'])) {

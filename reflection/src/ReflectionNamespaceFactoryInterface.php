@@ -22,6 +22,10 @@ interface ReflectionNamespaceFactoryInterface
 
     /**
      * Clears cached instance.
+     *
+     * @param string $namespace
+     *
+     * @return bool
      */
     public function clearCache($namespace = null);
 }

@@ -23,15 +23,15 @@ class JsonRpcErrorHandler implements MiddlewareInterface
         }
     }
 
-    public function handle($e, RequestInterface $request, ResponseInterface $response)
+    public function handle($exception, RequestInterface $request, ResponseInterface $response)
     {
-        if ($e instanceof \Serializable) {
-            $data = $e;
+        if ($exception instanceof \Serializable) {
+            $data = $exception;
         } else {
             $data = [
-                'class' => get_class($e),
-                'message' => $e->getMessage(),
-                'code' => $e->getCode(),
+                'class' => get_class($exception),
+                'message' => $exception->getMessage(),
+                'code' => $exception->getCode(),
             ];
         }
         $payload = $request->getAttribute('body');
@@ -39,8 +39,8 @@ class JsonRpcErrorHandler implements MiddlewareInterface
             'id' => Arrays::fetch($payload, 'id'),
             'jsonrpc' => Arrays::fetch($payload, 'version', '1.0'),
             'error' => [
-                'code' => $e->getCode(),
-                'message' => $e->getMessage(),
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
                 'data' => base64_encode(serialize($data)),
             ],
         ]));

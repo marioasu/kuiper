@@ -2,6 +2,9 @@
 
 namespace kuiper\rpc\server;
 
+use kuiper\rpc\Request;
+use kuiper\rpc\Response;
+
 class ServerTest extends TestCase
 {
     public function createServer()

@@ -15,9 +15,19 @@ class Item implements ItemInterface
     protected $pool;
 
     /**
+     * @var string
+     */
+    protected $key;
+
+    /**
      * @var mixed
      */
     protected $value;
+
+    /**
+     * @var string[]
+     */
+    protected $path;
 
     /**
      * @var int
@@ -52,16 +62,16 @@ class Item implements ItemInterface
         $this->pool = $pool;
         $this->key = $key;
 
-        $delim = $this->pool->getOption('namespace_separator');
-        $trimed = trim($key, $delim);
-        if (empty($trimed)) {
+        $delimiter = $this->pool->getOption('namespace_separator');
+        $trimKey = trim($key, $delimiter);
+        if (empty($trimKey)) {
             if (empty($key)) {
                 throw new InvalidArgumentException("Cache key '$key' must be non-empty");
             } else {
                 throw new InvalidArgumentException("Invalid cache key '$key'");
             }
         }
-        $path = explode($delim, $trimed);
+        $path = explode($delimiter, $trimKey);
         foreach ($path as $node) {
             if (empty($node)) {
                 throw new InvalidArgumentException("Invalid cache key '$key'");
@@ -89,10 +99,10 @@ class Item implements ItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setPrecomputeTime($seconds, $lock_ttl)
+    public function setPrecomputeTime($seconds, $lockTtl)
     {
         $this->precomputeTime = $seconds;
-        $this->lockTtl = $lock_ttl;
+        $this->lockTtl = $lockTtl;
 
         return $this;
     }

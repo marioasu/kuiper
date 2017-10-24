@@ -26,6 +26,7 @@ class ProxyFactory
      * @param Closure $initializer initializer to be passed to the proxy
      *
      * @return \ProxyManager\Proxy\LazyLoadingInterface
+     * @SuppressWarnings("unused")
      */
     public function createProxy($className, Closure $creator)
     {

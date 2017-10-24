@@ -2,6 +2,9 @@
 
 namespace kuiper\web\session;
 
+/**
+ * @SuppressWarnings("Globals")
+ */
 class Session implements SessionInterface
 {
     /**

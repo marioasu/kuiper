@@ -30,8 +30,7 @@ trait PathVersionKeyMaker
     }
 
     /**
-     * @param array  $path
-     * @param string $pathKey
+     * @param array $path
      *
      * @return string
      */
@@ -64,12 +63,14 @@ trait PathVersionKeyMaker
      */
     protected function incr($key)
     {
-        $value = ($this->fetch($key) ?: 0) + 1;
-        $this->store($key, $value);
-
-        return $value;
+        throw new \BadMethodCallException('delete method should override');
     }
 
+    /**
+     * @SuppressWarnings("unused")
+     *
+     * @param string $key
+     */
     protected function delete($key)
     {
         throw new \BadMethodCallException('delete method should override');

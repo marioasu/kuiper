@@ -53,6 +53,7 @@ class Normalize implements MiddlewareInterface
             $parameters = $this->normalizeParamters($callable, $request->getParameters());
             $request = $request->withParameters($parameters);
         }
+        /** @var ResponseInterface $response */
         $response = $next($request, $response);
         if ($response->getBody()->getSize() == 0) {
             $result = $response->getResult();
@@ -124,7 +125,7 @@ class Normalize implements MiddlewareInterface
 
     protected function callableToString($callable)
     {
-        return $key = sprintf('%s::%s', is_string($callable[0]) ? $callable[0] : get_class($callable[0]), $callable[1]);
+        return sprintf('%s::%s', is_string($callable[0]) ? $callable[0] : get_class($callable[0]), $callable[1]);
     }
 
     protected function getParameterTypes($callable)

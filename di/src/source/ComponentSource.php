@@ -111,6 +111,7 @@ class ComponentSource implements SourceInterface, LoggerAwareInterface
                 }
             }
         }
+
         usort($components, function ($a, $b) {
             if (isset($a['name'])) {
                 return 1;

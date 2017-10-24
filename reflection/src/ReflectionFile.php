@@ -202,7 +202,9 @@ class ReflectionFile implements ReflectionFileInterface
 
     /**
      * Skips whitespace and comment.
-     * Stops when first token that is not whitespace or comment is occured.
+     * Stops when first token that is not whitespace or comment is occur.
+     *
+     * @param Iterator $tokens
      */
     private function skipWhitespaceAndComment(Iterator $tokens)
     {
@@ -218,6 +220,8 @@ class ReflectionFile implements ReflectionFileInterface
     /**
      * Reads the identifiers at current position.
      * Stops when first token that not belong to identifier (not string or ns_separator).
+     *
+     * @param Iterator $tokens
      *
      * @return string
      */
@@ -238,7 +242,9 @@ class ReflectionFile implements ReflectionFileInterface
     }
 
     /**
-     * Reads use statment.
+     * Reads use statement.
+     *
+     * @param Iterator $tokens
      *
      * @return array first element is type string, "classes" or "functions" or "constants"
      *               and the second is an array, key is alias, value is import symbol
@@ -333,7 +339,7 @@ class ReflectionFile implements ReflectionFileInterface
                 $this->skipWhitespaceAndComment($tokens);
                 $alias = $this->matchIdentifier($tokens);
                 if (strpos($alias, '\\') !== false) {
-                    throw new SyntaxErrorException("import alias '{$alias}' cannot contain namespace seperator");
+                    throw new SyntaxErrorException("import alias '{$alias}' cannot contain namespace separator");
                 }
             } else {
                 $alias = $this->getSimpleName($name);
@@ -387,9 +393,9 @@ class ReflectionFile implements ReflectionFileInterface
     private function getTokenName($token)
     {
         if (self::$TOKEN_TYPES === null) {
-            $contants = get_defined_constants();
+            $constants = get_defined_constants();
             $tokenTypes = [];
-            foreach ($contants as $key => $val) {
+            foreach ($constants as $key => $val) {
                 if (strpos($key, 'T_') === 0) {
                     $tokenTypes[$val] = $key;
                 }

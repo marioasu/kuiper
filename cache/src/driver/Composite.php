@@ -117,7 +117,7 @@ class Composite implements DriverInterface
      */
     public function clear()
     {
-        return $this->executeOnAll(function ($driver) use ($prefix) {
+        return $this->executeOnAll(function ($driver) {
             return $driver->clear();
         });
     }

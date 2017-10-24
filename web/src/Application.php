@@ -171,18 +171,18 @@ class Application implements ApplicationInterface
         $this->middlewareStack = $stack;
     }
 
-    protected function callMiddlewareStack(ServerRequestInterface $request, ResponseInterface $response, $i = 0)
+    protected function callMiddlewareStack(ServerRequestInterface $request, ResponseInterface $response, $index = 0)
     {
-        if ($i < count($this->middlewareStack)) {
-            $middleware = $this->middlewareStack[$i];
+        if ($index < count($this->middlewareStack)) {
+            $middleware = $this->middlewareStack[$index];
             if ($middleware instanceof Closure) {
                 $middleware->bindTo($this->getContainer());
             }
             $this->request = $request;
             $this->response = $response;
 
-            return $middleware($request, $response, function ($request, $response) use ($i) {
-                return $this->callMiddlewareStack($request, $response, $i + 1);
+            return $middleware($request, $response, function ($request, $response) use ($index) {
+                return $this->callMiddlewareStack($request, $response, $index + 1);
             });
         } else {
             return $response;
@@ -253,6 +253,8 @@ class Application implements ApplicationInterface
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param callable               $next
+     *
+     * @SuppressWarnings("unused")
      */
     protected function dispatch(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
@@ -264,21 +266,24 @@ class Application implements ApplicationInterface
         return $route->run($request, $response);
     }
 
-    protected function handleException($e, ServerRequestInterface $request, ResponseInterface $response)
+    /**
+     * @SuppressWarnings("unused")
+     */
+    protected function handleException($exception, ServerRequestInterface $request, ResponseInterface $response)
     {
         $handler = $this->getErrorHandler();
         $handler->setRequest($this->request);
-        if ($e instanceof HttpException) {
-            if (!$e->getResponse()) {
-                $e->setResponse($this->response);
+        if ($exception instanceof HttpException) {
+            if (!$exception->getResponse()) {
+                $exception->setResponse($this->response);
             }
 
-            $handler->setResponse($e->getResponse());
+            $handler->setResponse($exception->getResponse());
         } else {
             $handler->setResponse($this->response->withStatus(500));
         }
 
-        return $handler->handle($e);
+        return $handler->handle($exception);
     }
 
     /**

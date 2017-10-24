@@ -22,6 +22,10 @@ interface ReflectionFileFactoryInterface
 
     /**
      * Clears cached instance.
+     *
+     * @param string $file
+     *
+     * @return bool
      */
     public function clearCache($file = null);
 }

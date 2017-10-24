@@ -46,7 +46,7 @@ class DocParser
         self::checkDocReadability();
     }
 
-    public function parse($input, ReflectionFileInterface $file, $namespace, $line)
+    public function parse($input, ReflectionFileInterface $file, $namespace)
     {
         $pos = $this->findInitialTokenPosition($input);
         if ($pos === null) {
@@ -422,6 +422,7 @@ class DocParser
             list($className, $const) = explode('::', $identifier);
             $resolver = new FqcnResolver($this->reflectionFile);
             $fullClassName = $resolver->resolve($className, $this->namespace);
+            $found = false;
             if (class_exists($fullClassName) || interface_exists($fullClassName)) {
                 $className = $fullClassName;
                 $found = true;

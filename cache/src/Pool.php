@@ -36,7 +36,7 @@ class Pool implements PoolInterface
             if (isset($options['namespace_separator'])
                 && strlen($options['namespace_separator']) !== 1) {
                 throw new InvalidArgumentException(sprintf(
-                    "Option 'namespace_separator' should be a charator, Got '%s'",
+                    "Option 'namespace_separator' should be a character, Got '%s'",
                     $options['namespace_separator']
                 ));
             }
@@ -89,8 +89,8 @@ class Pool implements PoolInterface
             $precomputeTime = $this->getOption('precompute_time');
         }
         if (isset($precomputeTime)) {
-            $lock_ttl = isset($options['lock_ttl']) ? $options['lock_ttl'] : $this->getOption('lock_ttl');
-            $item->setPrecomputeTime($precomputeTime, $lock_ttl);
+            $lockTtl = isset($options['lock_ttl']) ? $options['lock_ttl'] : $this->getOption('lock_ttl');
+            $item->setPrecomputeTime($precomputeTime, $lockTtl);
         }
         if (!$item->isHit()) {
             $lifetime = isset($options['lifetime']) ? $options['lifetime'] : $this->getOption('lifetime');
@@ -164,8 +164,8 @@ class Pool implements PoolInterface
     public function deleteItem($key)
     {
         $path = $this->createItem($key)->getKeyPath();
-        $delim = $this->getOption('namespace_separator');
-        if (substr($key, -1) === $delim) {
+        $delimiter = $this->getOption('namespace_separator');
+        if (substr($key, -1) === $delimiter) {
             $path[] = null;
         }
 
@@ -213,7 +213,7 @@ class Pool implements PoolInterface
 
     private function createItem($key)
     {
-        return $item = new $this->itemClass($this, $key);
+        return new $this->itemClass($this, $key);
     }
 
     private function setItemValue(ItemInterface $item, $value)

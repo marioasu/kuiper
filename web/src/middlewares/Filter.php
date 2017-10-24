@@ -80,11 +80,11 @@ class Filter
         return $this->cache[$className][$action] = $filters;
     }
 
-    private function callFilters($request, $response, $filters, $final, $i = 0)
+    private function callFilters($request, $response, $filters, $final, $index = 0)
     {
-        if ($i < count($filters)) {
-            return $filters[$i]($request, $response, function ($request, $response) use ($filters, $final, $i) {
-                return $this->callFilters($request, $response, $filters, $final, $i + 1);
+        if ($index < count($filters)) {
+            return $filters[$index]($request, $response, function ($request, $response) use ($filters, $final, $index) {
+                return $this->callFilters($request, $response, $filters, $final, $index + 1);
             });
         } else {
             return $final($request, $response);

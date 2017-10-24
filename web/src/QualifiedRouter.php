@@ -104,9 +104,9 @@ class QualifiedRouter implements RouterInterface
             $code .= sprintf(' && strpos($uri->getPath(), "%s") === 0', addslashes($this->attributes['prefix']));
         }
         $this->matcher = create_function('$uri', 'return '.$code.';');
-        $this->router = new FastRouteRouter(\FastRoute\simpleDispatcher(function ($r) {
+        $this->router = new FastRouteRouter(\FastRoute\simpleDispatcher(function ($set) {
             foreach ($this->routes as $route) {
-                $r->addRoute($route->getMethods(), $route->getPattern(), $route);
+                $set->addRoute($route->getMethods(), $route->getPattern(), $route);
             }
         }));
     }

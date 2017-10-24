@@ -127,7 +127,7 @@ final class ReflectionType implements ReflectionTypeInterface
     /**
      * creates type from ReflectionType.
      *
-     * @param ReflectionType $type
+     * @param Php7ReflectionType $type
      *
      * @return static
      */
@@ -460,7 +460,7 @@ final class ReflectionType implements ReflectionTypeInterface
         } elseif ($this->hasClassName()) {
             return $value instanceof $this->className;
         } else {
-            throw new LogicException("unexpect type '{$this}'");
+            throw new LogicException("unexpected type '{$this}'");
         }
     }
 

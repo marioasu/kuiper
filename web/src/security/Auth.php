@@ -53,10 +53,10 @@ class Auth implements AuthInterface
         $this->sessionData = $this->session->get($this->sessionKey);
         if (isset($this->sessionData)) {
             $now = time();
-            $discard_time = isset($this->sessionData[self::REGENERATE_AFTER])
+            $discardTime = isset($this->sessionData[self::REGENERATE_AFTER])
                 ? $this->sessionData[self::REGENERATE_AFTER]
                 : $now;
-            $this->needRegenerate = ($now >= $discard_time);
+            $this->needRegenerate = ($now >= $discardTime);
         } else {
             $this->sessionData = false;
         }

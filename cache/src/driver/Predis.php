@@ -10,7 +10,9 @@ use Predis\ClientInterface;
 class Predis extends RedisDriver implements DriverInterface
 {
     /**
-     * @param array $options options contains keys
+     * @param ClientInterface $redis
+     *
+     * @internal param array $options options contains keys
      *                       - servers an array each value may contain keys: host, port, index
      */
     public function __construct(ClientInterface $redis)

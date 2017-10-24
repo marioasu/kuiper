@@ -33,9 +33,9 @@ interface ReflectionFileInterface
      * Gets all imported classes in the namespace
      * return array key is alias, value is the Full Qualified Class Name.
      *
-     * @return string[]
+     * @param string $namespace
      *
-     * @throws exception\SyntaxErrorException
+     * @return string[]
      */
     public function getImportedClasses($namespace);
 
@@ -43,9 +43,9 @@ interface ReflectionFileInterface
      * Gets all imported functions in the namespace
      * return array key is alias, value is the Full Qualified Function Name.
      *
-     * @return string[]
+     * @param string $namespace
      *
-     * @throws exception\SyntaxErrorException
+     * @return string[]
      */
     public function getImportedFunctions($namespace);
 
@@ -53,9 +53,9 @@ interface ReflectionFileInterface
      * Gets all imported constants in the namespace
      * return array key is alias, value is the Full Qualified Constant Name.
      *
-     * @return string[]
+     * @param string $namespace
      *
-     * @throws exception\SyntaxErrorException
+     * @return string[]
      */
     public function getImportedConstants($namespace);
 }

@@ -13,6 +13,8 @@ class EnvSource implements SourceInterface
      * @param string $name
      *
      * @return string
+     *
+     * @SuppressWarnings("superglobals")
      */
     public static function findEnvironmentVariable($name)
     {

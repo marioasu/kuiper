@@ -25,10 +25,10 @@ interface ItemInterface extends CacheItemInterface
     public function getExpiration();
 
     /**
-     * @param int $seconds  seconds before expired to precompute cache data
-     * @param int $lock_ttl seconds to release lock after lock acquired
+     * @param int $seconds seconds before expired to precompute cache data
+     * @param int $lockTtl seconds to release lock after lock acquired
      */
-    public function setPrecomputeTime($seconds, $lock_ttl);
+    public function setPrecomputeTime($seconds, $lockTtl);
 
     /**
      * mark item is miss.

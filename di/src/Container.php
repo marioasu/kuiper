@@ -337,11 +337,17 @@ class Container implements ContainerInterface, ResolverInterface
         return $this;
     }
 
+    /**
+     * @SuppressWarnings("unused")
+     */
     public static function createEnvResolver(Container $container)
     {
         return new EnvResolver();
     }
 
+    /**
+     * @SuppressWarnings("unused")
+     */
     public static function createStringResolver(Container $container)
     {
         return new StringResolver();

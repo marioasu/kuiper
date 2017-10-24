@@ -4,7 +4,7 @@ namespace kuiper\rpc;
 
 use InvalidArgumentException;
 
-trait MiddlewareStackTrait
+class MiddlewareStack
 {
     /**
      * @var array
@@ -16,8 +16,21 @@ trait MiddlewareStackTrait
      */
     private $middlewareStack;
 
-    protected function addMiddleware(callable $middleware, $position, $id = null)
+    /**
+     * @var array
+     */
+    private $stages;
+
+    public function __construct(array $stages = [])
     {
+        $this->stages = $stages;
+    }
+
+    public function addMiddleware(callable $middleware, $position, $id = null)
+    {
+        if ($this->isInitialized()) {
+            throw new \RuntimeException("middlewares is initialized, cannot modify");
+        }
         if (is_int($position)) {
             if (!isset($this->stages[$position])) {
                 throw new InvalidArgumentException("Invalid position '{$position}'");
@@ -56,21 +69,30 @@ trait MiddlewareStackTrait
         }
     }
 
-    protected function callMiddlewareStack(RequestInterface $request, ResponseInterface $response, $i = 0)
+    public function callMiddlewareStack(RequestInterface $request, ResponseInterface $response, $index = 0)
     {
-        if ($i < count($this->middlewareStack)) {
-            $middleware = $this->middlewareStack[$i];
+        $this->initialize();
+        if ($index < count($this->middlewareStack)) {
+            $middleware = $this->middlewareStack[$index];
 
-            return $middleware($request, $response, function ($request, $response) use ($i) {
-                return $this->callMiddlewareStack($request, $response, $i + 1);
+            return $middleware($request, $response, function ($request, $response) use ($index) {
+                return $this->callMiddlewareStack($request, $response, $index + 1);
             });
         } else {
             return $response;
         }
     }
 
-    protected function buildMiddlewareStack()
+    public function isInitialized()
     {
+        return isset($this->middlewareStack);
+    }
+
+    public function initialize()
+    {
+        if ($this->isInitialized()) {
+            return;
+        }
         $middlewares = [];
         foreach ($this->stages as $stage => $name) {
             if (isset($this->middlewares[$stage])) {

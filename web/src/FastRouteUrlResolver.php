@@ -133,7 +133,7 @@ class FastRouteUrlResolver implements UrlResolverInterface
             throw new \InvalidArgumentException('Missing data for URL segment: '.$segmentName);
         }
 
-        return $url = implode('', $segments);
+        return implode('', $segments);
     }
 
     protected function getNamedRoute($name)

@@ -23,9 +23,9 @@ class DocReader implements DocReaderInterface
      */
     private static $CACHE;
 
-    public function __construct(ReflectionFileFactoryInterface $reflFileFactory = null)
+    public function __construct(ReflectionFileFactoryInterface $factory = null)
     {
-        $this->reflectionFileFactory = $reflFileFactory ?: ReflectionFileFactory::createInstance();
+        $this->reflectionFileFactory = $factory ?: ReflectionFileFactory::createInstance();
         DocParser::checkDocReadability();
     }
 
@@ -127,6 +127,9 @@ class DocReader implements DocReaderInterface
     /**
      * @param ReflectionMethod|ReflectionProperty $reflection
      * @param callable                            $callback
+     * @param string                              $prefix
+     *
+     * @return
      */
     protected function getCached($reflection, $callback, $prefix = null)
     {
@@ -225,8 +228,8 @@ class DocReader implements DocReaderInterface
                     return $interface->getMethod($name)->getDocComment();
                 }
             }
-        } else {
-            return $doc;
         }
+
+        return $doc;
     }
 }
